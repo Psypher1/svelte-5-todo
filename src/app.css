@@ -1,0 +1,13 @@
+/* the props */
+@import "https://unpkg.com/open-props";
+
+body {
+	font-family: system-ui;
+	background-color: var(--gray-10);
+	color: var(--gray-2);
+}
+
+a {
+	text-decoration: none;
+	color: var(--gray-3);
+}
