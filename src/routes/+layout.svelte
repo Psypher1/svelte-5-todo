@@ -10,8 +10,9 @@
 
 <style>
 	main {
-		padding: var(--size-10);
+		padding: var(--size-12);
 		display: grid;
 		place-items: center;
+		max-width: 70ch;
 	}
 </style>
