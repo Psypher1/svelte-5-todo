@@ -8,10 +8,14 @@
 		{ text: "learn sveltekit", done: false }
 	]);
 
+	let filter = $state("all");
+	let filteredTodos = $derived(filterTodos());
+
 	// $: console.log(todos)
 	// an effect is a signal that reruns every time a change occurs
 	$effect(() => {
 		console.log(todos);
+		console.log(filter);
 	});
 
 	function addTodo(event) {
@@ -40,6 +44,24 @@
 
 		todos[index].done = !todos[index].done;
 	}
+
+	function setFilter(newFilter) {
+		filter = newFilter;
+	}
+
+	function filterTodos() {
+		// if you return in switch, no need for break
+		switch (filter) {
+			case "all":
+				return todos;
+			case "active":
+				return todos.filter((todo) => !todo.done);
+			case "completed":
+				return todos.filter((todo) => todo.done);
+			default:
+				break;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -53,20 +75,19 @@
 <input on:keydown={addTodo} type="text" placeholder="Add todo" class="add-todo" />
 
 <div class="todos">
-	{#each todos as todo, i}
-		<div class="todo">
+	{#each filteredTodos as todo, i}
+		<div class="todo" class:completed={todo.done}>
 			<input type="text" oninput={editTodo} data-index={i} name="" value={todo.text} id="" />
 
-			<input
-				type="checkbox"
-				onchange={toggleTodo}
-				data-index={i}
-				name=""
-				checked={todo.done}
-				id=""
-			/>
+			<input type="checkbox" onchange={toggleTodo} data-index={i} checked={todo.done} id="" />
 		</div>
 	{/each}
+</div>
+
+<div class="filters">
+	<button on:click={() => setFilter("all")}>All</button>
+	<button on:click={() => setFilter("active")}>Active</button>
+	<button on:click={() => setFilter("completed")}>Completed</button>
 </div>
 
 <style>
@@ -112,7 +133,11 @@
 		width: 40ch !important;
 	}
 
-	/* .completed {
+	.filters {
+		margin-top: var(--size-5);
+	}
+
+	.completed {
 		opacity: 0.4;
-	} */
+	}
 </style>
