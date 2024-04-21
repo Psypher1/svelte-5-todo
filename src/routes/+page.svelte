@@ -33,6 +33,13 @@
 
 		todos[index].text = inputEl.value;
 	}
+
+	function toggleTodo(event) {
+		const inputEl = event.target;
+		const index = inputEl.dataset.index;
+
+		todos[index].done = !todos[index].done;
+	}
 </script>
 
 <svelte:head>
@@ -50,7 +57,14 @@
 		<div class="todo">
 			<input type="text" oninput={editTodo} data-index={i} name="" value={todo.text} id="" />
 
-			<input type="checkbox" name="" checked={todo.done} id="" />
+			<input
+				type="checkbox"
+				onchange={toggleTodo}
+				data-index={i}
+				name=""
+				checked={todo.done}
+				id=""
+			/>
 		</div>
 	{/each}
 </div>
