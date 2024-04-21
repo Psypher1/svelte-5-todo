@@ -13,6 +13,7 @@
 		padding: var(--size-12);
 		display: grid;
 		place-items: center;
-		max-width: 70ch;
+		max-width: 90ch;
+		margin-inline: auto;
 	}
 </style>

@@ -8,6 +8,12 @@
 		{ text: "learn sveltekit", done: false }
 	]);
 
+	// $: console.log(todos)
+	// an effect is a signal that reruns every time a change occurs
+	$effect(() => {
+		console.log(todos);
+	});
+
 	function addTodo(event) {
 		if (event.key !== "Enter") return;
 
@@ -20,6 +26,13 @@
 
 		todoEl.value = "";
 	}
+
+	function editTodo(event) {
+		const inputEl = event.target;
+		const index = inputEl.dataset.index;
+
+		todos[index].text = inputEl.value;
+	}
 </script>
 
 <svelte:head>
@@ -30,12 +43,13 @@
 
 <!-- <input on:keydown={} type="text" placeholder="Add todo" /> -->
 <!-- event listeners are now attributes -->
-<input on:keydown={addTodo} type="text" placeholder="Add todo" />
+<input on:keydown={addTodo} type="text" placeholder="Add todo" class="add-todo" />
 
 <div class="todos">
-	{#each todos as todo}
+	{#each todos as todo, i}
 		<div class="todo">
-			<input type="text" name="" value={todo.text} id="" />
+			<input type="text" oninput={editTodo} data-index={i} name="" value={todo.text} id="" />
+
 			<input type="checkbox" name="" checked={todo.done} id="" />
 		</div>
 	{/each}
@@ -71,14 +85,20 @@
 		display: grid;
 		gap: 1rem;
 		margin-block-start: 1rem;
+
+		width: 40ch;
+		margin-top: var(--size-5);
 	}
 
 	.todo {
 		position: relative;
 		transition: opacity 0.3s;
 	}
-
-	.completed {
-		opacity: 0.4;
+	.add-todo {
+		width: 40ch !important;
 	}
+
+	/* .completed {
+		opacity: 0.4;
+	} */
 </style>
