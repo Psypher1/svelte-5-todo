@@ -3,19 +3,35 @@
 	// $: todos = []
 
 	let todos = $state([
-		{ text: "learn svelte", done: false },
-		{ text: "learn turso", done: true },
-		{ text: "learn sveltekit", done: false }
+		// { text: "learn svelte", done: false },
+		// { text: "learn turso", done: true },
+		// { text: "learn sveltekit", done: false }
 	]);
 
 	let filter = $state("all");
 	let filteredTodos = $derived(filterTodos());
 
 	// $: console.log(todos)
-	// an effect is a signal that reruns every time a change occurs
+
+	/* an effect is a signal that reruns every time a change occurs */
+	// $effect(() => {
+	// 	console.log(todos);
+	// 	console.log(filter);
+	// });
+
+	// check todos in storage
 	$effect(() => {
-		console.log(todos);
-		console.log(filter);
+		const savedTodos = localStorage.getItem("todos");
+		savedTodos && (todos = JSON.parse(savedTodos));
+
+		// if (savedTodos){
+		// 	todos = JSON.parse(savedTodos)
+		// }
+	});
+
+	// add todod
+	$effect(() => {
+		localStorage.setItem("todos", JSON.stringify(todos));
 	});
 
 	function addTodo(event) {
