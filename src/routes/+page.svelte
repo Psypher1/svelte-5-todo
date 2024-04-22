@@ -61,6 +61,14 @@
 		todos[index].done = !todos[index].done;
 	}
 
+	function deleteTodo(index) {
+		// todos = todos.filter((todo) => todo.index !== index);
+		const inputEl = event.target;
+		const index = inputEl.dataset.index;
+
+		todos = todos.filter((todo) => todo[index] !== todo[index]);
+	}
+
 	function setFilter(newFilter) {
 		filter = newFilter;
 	}
@@ -98,8 +106,8 @@
 	{#each filteredTodos as todo, i}
 		<div class="todo" class:completed={todo.done}>
 			<input type="text" oninput={editTodo} data-index={i} name="" value={todo.text} id="" />
-
 			<input type="checkbox" onchange={toggleTodo} data-index={i} checked={todo.done} id="" />
+			<button on:click={deleteTodo}>X</button>
 		</div>
 	{/each}
 </div>
@@ -133,7 +141,7 @@
 
 	input[type="checkbox"] {
 		position: absolute;
-		right: 4%;
+		right: 10%;
 		top: 50%;
 		translate: 0% -50%;
 	}
@@ -148,8 +156,20 @@
 	}
 
 	.todo {
+		display: flex;
 		position: relative;
 		transition: opacity 0.3s;
+	}
+	.todo > button {
+		color: red;
+		font-size: var(--font-size-3);
+
+		position: absolute;
+		right: -20%;
+		top: 44%;
+		translate: 0% -50%;
+
+		cursor: pointer;
 	}
 	.add-todo {
 		width: 40ch !important;
