@@ -62,6 +62,10 @@
 				break;
 		}
 	}
+
+	function remaining() {
+		return todos.filter((todo) => !todo.done).length;
+	}
 </script>
 
 <svelte:head>
@@ -89,6 +93,8 @@
 	<button on:click={() => setFilter("active")}>Active</button>
 	<button on:click={() => setFilter("completed")}>Completed</button>
 </div>
+
+<p>{remaining()} remaining</p>
 
 <style>
 	h1 {
@@ -134,7 +140,7 @@
 	}
 
 	.filters {
-		margin-top: var(--size-5);
+		margin-block: var(--size-5);
 	}
 
 	.completed {
